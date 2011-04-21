@@ -9,7 +9,7 @@ SPECIAL = %w(mentions retweeted_by_me retweeted_to_me retweets_of_me)
 if %w(-h --help).include?(ARGV.first)
   puts <<END
 
-Before using tw3, you must first get a Twitter API key and authorize the twurl
+Before using twail, you must first get a Twitter API key and authorize the twurl
 command to access your Twitter account. Type 
 
   twurl -T
@@ -18,7 +18,7 @@ for instructions.
 
 Assuming you've done that, read on.
 
-Usage: tw3 [timeline]
+Usage: twail [timeline]
 
 [timeline] can be any of these
 
