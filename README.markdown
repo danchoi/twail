@@ -3,6 +3,8 @@
 `twail` is inspired by the venerable Unix `tail` program.  `twail` lets
 you tail your Twitter timelines.  
 
+[Link to screenshot][http://s3.amazonaws.com/twitpic/photos/full/281610331.png?AWSAccessKeyId=AKIAJF3XCCKACR3QDMOA&Expires=1303407756&Signature=tUBW3QF4%2F0Z69nq3%2FJG1C95EqUU%3D]
+
 # Installation
 
     gem install twail
