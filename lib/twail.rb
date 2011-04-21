@@ -64,7 +64,10 @@ url = case timeline
       end
 
 trap("INT") { 
-  puts 'Goodbye'
+  xs = ['Goodbye.', 'Farewell.', 'Have a nice day.', 
+    'Now go enjoy the weather!', 'Live long and prosper.', 
+    'May the force be with you.']
+  puts xs[rand(xs.size)]
   exit
 }
 
