@@ -6,7 +6,7 @@ your Twitter timelines.
 Before using twail, you must first get a Twitter API key and authorize the twurl
 command to access your Twitter account. Type 
 
-  twurl -T
+    twurl -T
 
 for instructions.
 
