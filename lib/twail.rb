@@ -20,7 +20,7 @@ Assuming you've done that, read on.
 
 Usage: twail [timeline]
 
-[timeline] can be any of these
+[timeline] can be any of these:
 
   public 
   home 
@@ -31,7 +31,9 @@ Usage: twail [timeline]
   retweeted_to_me 
   retweets_of_me
 
-You can abbreviate the name of the timeline to any of these
+"home" is the default.
+
+You can use these abbreviations: 
 
   p h f u m by to of
 
