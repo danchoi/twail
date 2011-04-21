@@ -38,6 +38,10 @@ You can use these abbreviations:
 
     p h f u m by to of
 
+For more help, see the README at 
+
+    https://github.com/danchoi/twail
+
 END
   exit
 end
