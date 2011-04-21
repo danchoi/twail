@@ -2,6 +2,7 @@
 # encoding: UTF-8
 require 'json'
 require 'yaml'
+require 'twurl'
 
 TIMELINES = %w( public home friends user)
 SPECIAL = %w(mentions retweeted_by_me retweeted_to_me retweets_of_me)
@@ -12,7 +13,7 @@ if %w(-h --help).include?(ARGV.first)
 Before using twail, you must first get a Twitter API key and authorize the twurl
 command to access your Twitter account. Type 
 
-  twurl -T
+    twurl -T
 
 for instructions.
 
@@ -22,20 +23,20 @@ Usage: twail [timeline]
 
 [timeline] can be any of these:
 
-  public 
-  home 
-  friends 
-  user 
-  mentions 
-  retweeted_by_me 
-  retweeted_to_me 
-  retweets_of_me
+    public 
+    home 
+    friends 
+    user 
+    mentions 
+    retweeted_by_me 
+    retweeted_to_me 
+    retweets_of_me
 
 "home" is the default.
 
 You can use these abbreviations: 
 
-  p h f u m by to of
+    p h f u m by to of
 
 END
   exit
@@ -54,7 +55,7 @@ timeline = if ARGV.first
            else
              'home'
            end
-puts "Logging #{timeline} timeline"
+puts "Logging #{timeline} timeline at #{Time.now}"
 url = case timeline
       when 'retweets_of_me'
         # This doesn't seem to do anything different; figure out later
@@ -69,14 +70,35 @@ trap("INT") {
   xs = ['Goodbye.', 'Farewell.', 'Have a nice day.', 
     'Now go enjoy the weather!', 'Live long and prosper.', 
     'May the force be with you.']
-  puts xs[rand(xs.size)]
+  $stderr.puts xs[rand(xs.size)]
   exit
 }
 
 seen = []
+network = true
 
 loop do 
-  res = JSON.parse(`twurl #{url}`).reverse
+  raw = begin 
+          Twurl::CLI.output = StringIO.new
+          Twurl::CLI.run([url]) 
+          if network == false
+            network = true
+            $stderr.print(" The network is back up!\n")
+          end
+          Twurl::CLI.output.read
+          Twurl::CLI.output.rewind
+          Twurl::CLI.output.read
+        rescue SocketError 
+          if network
+            $stderr.print("The network seems to be down.") 
+          else
+            $stderr.print('.')
+          end
+          network = false
+          sleep 20
+          next 
+        end
+  res = JSON.parse(raw).reverse
   res.each do |x|
     next if seen.include?(x['id'])
     seen << x['id']
@@ -86,9 +108,10 @@ loop do
     total_width = `tput cols`.to_i
     text_width = (total_width - user_width) - 3
     textlines = text.wrap(text_width).split(/\n/)
+
     puts("%s| %s" % [from.rjust(user_width), textlines.shift])
     textlines.each do |line|
-    puts("%s| %s" % [''.rjust(user_width), line])
+      puts("%s| %s" % [''.rjust(user_width), line])
     end
   end
   sleep 30
