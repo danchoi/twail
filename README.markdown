@@ -12,9 +12,9 @@ for instructions.
 
 Assuming you've done that, read on.
 
-Usage: twail [timeline]
+    Usage: twail [timeline]
 
-[timeline] can be any of these:
+`[timeline]` can be any of the following:
 
     public 
     home 
