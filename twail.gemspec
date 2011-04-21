@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.authors     = ["Daniel Choi"]
   s.email       = ["dhchoi@gmail.com"]
-  s.homepage    = "http://danielchoi.com/software/twail.html"
+  s.homepage    = "https://github.com/danchoi/twail"
   s.summary     = %q{tail your Twitter timeslines}
   s.description = %q{tail your Twitter timeslines}
 
