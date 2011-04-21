@@ -9,8 +9,9 @@ you tail your Twitter timelines.
 
 # Setup
 
-Before using twail, you must first get a Twitter API key and authorize the twurl
-command to access your Twitter account. Type 
+Before using twail, you must first get a Twitter API key and authorize
+the `twurl` command (note that this is a different command from `twail`)
+to access your Twitter account. Type 
 
     twurl -T
 
