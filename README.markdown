@@ -16,6 +16,7 @@ Assuming you've done that, read on.
 
 The output looks like this:
 
+    $ twail home
     Logging home timeline at 2011-04-21 11:21:36 -0400
             timoreilly| RT @gumption Americans wildly underestimate income disparity, prefer far greater 
                       | equitability @DanAriely http://bit.ly/gE9v3n
