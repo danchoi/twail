@@ -3,6 +3,12 @@
 `twail` is inspired by the venerable Unix `tail` program.  `twail` lets
 you tail your Twitter timelines.  
 
+# Installation
+
+    gem install twail
+
+# Setup
+
 Before using twail, you must first get a Twitter API key and authorize the twurl
 command to access your Twitter account. Type 
 
@@ -10,9 +16,10 @@ command to access your Twitter account. Type
 
 for instructions.
 
-Assuming you've done that, read on.
 
-    Usage: twail [timeline]
+# Usage
+
+    twail [timeline]
 
 The output looks like this:
 
