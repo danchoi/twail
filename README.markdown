@@ -83,7 +83,8 @@ want.  One pipeline I like to use is
 
     twail home | tee -a twitter.home.log
 
-Lots of other pipelines are possible.  Knock yourself out.
+Lots of other pipelines are possible.  Knock yourself out.  To stop
+`twail`, press `CTRL-C`.
 
 `twail` was created by Daniel Choi.  It's really just a convenience
 wrapper around the awesome [twurl][twurl] program.
