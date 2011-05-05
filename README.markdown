@@ -90,6 +90,12 @@ want.  One pipeline I like to use is
 Lots of other pipelines are possible.  Knock yourself out.  To stop
 `twail`, press `CTRL-C`.
 
+# About
+
+If you like `twail` and you're a Vim user, try [twim][twim].
+
+[twim]:https://github.com/danchoi/twim
+
 `twail` was created by Daniel Choi.  It's really just a convenience
 wrapper around the awesome [twurl][twurl] program.
 
