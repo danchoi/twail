@@ -2,15 +2,15 @@
 $:.push File.expand_path("../lib", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "twail"
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.platform    = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.9.0'
 
   s.authors     = ["Daniel Choi"]
   s.email       = ["dhchoi@gmail.com"]
   s.homepage    = "https://github.com/danchoi/twail"
-  s.summary     = %q{tail your Twitter timeslines}
-  s.description = %q{tail your Twitter timeslines}
+  s.summary     = %q{tail your Twitter timelines, or search Twitter}
+  s.description = %q{tail your Twitter timelines, or search Twitter}
 
   s.rubyforge_project = "twail"
 

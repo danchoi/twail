@@ -21,6 +21,8 @@ for instructions.
 Assuming you've done that, read on.
 
 Usage: twail [timeline]
+        
+       twail s [search args]
 
 [timeline] can be any of these:
 
@@ -38,6 +40,8 @@ Usage: twail [timeline]
 You can use these abbreviations: 
 
     p h f u m by to of
+
+twail will performs a Twitter search if you use `twail s [search args]`
 
 For more help, see the README at 
 
