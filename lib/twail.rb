@@ -3,6 +3,7 @@
 require 'json'
 require 'yaml'
 require 'twurl'
+require 'time'
 
 TIMELINES = %w( public home friends user)
 SPECIAL = %w(mentions retweeted_by_me retweeted_to_me retweets_of_me)
@@ -52,6 +53,26 @@ class String
   end
 end
 
+
+# search is different
+if ARGV.first =~ /^s/ # search
+
+  query = "?q=#{ARGV[1..-1].join(' ')}"
+
+  while query 
+    url = "http://search.twitter.com/search.json#{query}"
+    json = `curl -s '#{url}'`
+    res = JSON.parse(json)
+    res['results'].each do |x|
+      time = Time.parse(x['created_at']).localtime
+      puts "%s | %s | %s" % [time.to_s.gsub(/\s\S+$/,''), x['from_user'].rjust(18), x['text'].gsub(/\n/, ' ')]
+    end
+    query = res['next_page']
+  end
+  exit 
+end
+
+# timeline tail
 timeline = if ARGV.first 
              (TIMELINES + SPECIAL).detect {|t| 
                t =~ /^#{ARGV.first}/ || ((t =~ /_/) && (t.split('_')[1]  =~ /^#{ARGV.first}/)) 
@@ -69,6 +90,7 @@ url = case timeline
       else 
         "/1/statuses/#{timeline}_timeline.json"
       end
+
 
 trap("INT") { 
   xs = ['Goodbye.', 'Farewell.', 'Have a nice day.', 
