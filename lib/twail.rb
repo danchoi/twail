@@ -70,8 +70,7 @@ if ARGV.first =~ /^s/ # search
   max_pages = if ARGV[0] =~ /\d+/ 
                 ARGV.shift 
               end
-
-  query = "?q=#{ARGV.join(' ')}"
+  query = "?q=#{URI.escape(ARGV.join(' '))}"
   $stderr.puts "Search query: #{ARGV.join(' ')}"
   if max_pages
     $stderr.puts "Max pages: #{max_pages}"
