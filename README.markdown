@@ -107,6 +107,11 @@ To stop fetching results after n pages, use this form:
 
     twail s [n] [search args]
 
+Please note that you want to search for a hashtag, you need to put it in quotes.
+E.g., 
+
+    twail s 1 '#codeforamerica'
+
 The output of `twail` in search mode looks like this:
 
     $ twail s vitunes itunes
