@@ -76,17 +76,25 @@ if ARGV.first =~ /^s/ # search
     $stderr.puts "Max pages: #{max_pages}"
   end
 
+  total_width = `tput cols`.to_i
+  text_width = (total_width - 44) 
+
   while query 
     url = "http://search.twitter.com/search.json#{query}"
     json = `curl -s '#{url}'`
     res = JSON.parse(json)
     res['results'].each do |x|
       time = Time.parse(x['created_at']).localtime
-      puts "%s | %s | %s" % [time.to_s.gsub(/\s\S+$/,''), x['from_user'].rjust(18), x['text'].gsub(/\n/, ' ')]
+      text = x['text'].gsub(/\n/, ' ')
+      textlines = text.wrap(text_width).split(/\n/)
+      puts "%s | %s | %s" % [time.to_s.gsub(/\s\S+$/,''), x['from_user'].rjust(18), textlines.shift]
+      textlines.each do |line|
+        puts("%s | %s" % [''.rjust(40), line])
+      end
     end
     query = res['next_page']
     if max_pages
-      if query[/page=(\d+)/, 1].to_i > max_pages.to_i
+      if query.nil? || query[/page=(\d+)/, 1].to_i > max_pages.to_i
         exit
       end
     end
