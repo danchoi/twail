@@ -22,7 +22,7 @@ Assuming you've done that, read on.
 
 Usage: twail [timeline]
         
-       twail s [search args]
+       twail s [max pages] [search args]
 
 [timeline] can be any of these:
 
@@ -41,7 +41,13 @@ You can use these abbreviations:
 
     p h f u m by to of
 
-twail will perform a Twitter search if you use `twail s [search args]`
+twail will perform a Twitter search if you use 
+
+    twail s [search args]
+
+To stop returning search results after n pages, use 
+
+    twail s [n] [search args]
 
 For more help, see the README at 
 
@@ -60,8 +66,16 @@ end
 
 # search is different
 if ARGV.first =~ /^s/ # search
+  ARGV.shift
+  max_pages = if ARGV[0] =~ /\d+/ 
+                ARGV.shift 
+              end
 
-  query = "?q=#{ARGV[1..-1].join(' ')}"
+  query = "?q=#{ARGV.join(' ')}"
+  $stderr.puts "Search query: #{ARGV.join(' ')}"
+  if max_pages
+    $stderr.puts "Max pages: #{max_pages}"
+  end
 
   while query 
     url = "http://search.twitter.com/search.json#{query}"
@@ -72,6 +86,11 @@ if ARGV.first =~ /^s/ # search
       puts "%s | %s | %s" % [time.to_s.gsub(/\s\S+$/,''), x['from_user'].rjust(18), x['text'].gsub(/\n/, ' ')]
     end
     query = res['next_page']
+    if max_pages
+      if query[/page=(\d+)/, 1].to_i > max_pages.to_i
+        exit
+      end
+    end
   end
   exit 
 end

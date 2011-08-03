@@ -25,7 +25,7 @@ for instructions.
 
     or 
 
-    twail s [search args]
+    twail s [max pages] [search args]
 
 ## Tailing your timelines 
 
@@ -93,7 +93,6 @@ want.  One pipeline I like to use is
 Lots of other pipelines are possible.  Knock yourself out.  To stop
 `twail`, press `CTRL-C`.
 
-
 ## Search for tweets
 
 You can run a Twitter search with `twail s [search args]`.
@@ -103,6 +102,10 @@ query.
 
 `twail` will print each page of search results as it fetches them and keep
 going backward in time until the results are exhausted.
+
+To stop fetching results after n pages, use this form:
+
+    twail s [n] [search args]
 
 The output of `twail` in search mode looks like this:
 
