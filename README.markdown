@@ -101,8 +101,8 @@ You can run a Twitter search with `twail s [search args]`.
 Search arguments are simply the words you want to submit as your Twitter search
 query.
 
-`twail` will print each of search results as it fetches them and keep going
-backward in time until the results are exhausted.
+`twail` will print each page of search results as it fetches them and keep
+going backward in time until the results are exhausted.
 
 The output of `twail` in search mode looks like this:
 
