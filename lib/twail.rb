@@ -41,7 +41,7 @@ You can use these abbreviations:
 
     p h f u m by to of
 
-twail will performs a Twitter search if you use `twail s [search args]`
+twail will perform a Twitter search if you use `twail s [search args]`
 
 For more help, see the README at 
 
