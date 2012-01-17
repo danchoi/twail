@@ -67,7 +67,7 @@ end
 # search is different
 if ARGV.first =~ /^s/ # search
   ARGV.shift
-  max_pages = if ARGV[0] =~ /\d+/ 
+  max_pages = if ARGV[0] =~ /^\d+/ 
                 ARGV.shift 
               end
   query = "?q=#{URI.escape(ARGV.join(' '))}"
