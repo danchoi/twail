@@ -170,6 +170,10 @@ loop do
       puts("%s| %s" % [''.rjust(user_width), line])
     end
   end
+  if !$stdout.tty?
+    $stdout.flush
+    exit
+  end
   sleep 30
 end
 

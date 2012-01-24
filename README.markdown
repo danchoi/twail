@@ -142,6 +142,13 @@ The output of `twail` in search mode looks like this:
     etc.
 
 
+If you pipe twail into another command, twail will no longer behave like `tail -f`, but just like `tail`. So you can do this
+
+    twail m | tail -3 
+
+to see the last three tweets directed at you.
+
+
 ## About
 
 If you like `twail` and you're a Vim user, try [twim][twim].
