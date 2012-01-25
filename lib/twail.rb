@@ -4,6 +4,10 @@ require 'json'
 require 'yaml'
 require 'twurl'
 require 'time'
+require 'optparse'
+
+
+# TODO DRY this code up!
 
 TIMELINES = %w( public home friends user)
 SPECIAL = %w(mentions retweeted_by_me retweeted_to_me retweets_of_me)
@@ -49,6 +53,14 @@ To stop returning search results after n pages, use
 
     twail s [n] [search args]
 
+To include tweet ids, use the -i flag:
+
+    twail -i s [n] [search args]
+
+To automatically wrap long text, use the -w flag:
+
+    twail -w m
+
 For more help, see the README at 
 
     https://github.com/danchoi/twail
@@ -63,6 +75,13 @@ class String
   end
 end
 
+options = {}
+OptionParser.new {|opts|
+  opts.on("-w", "--wrap", "Wrap long text") {|x| options[:wrap] = x }
+  opts.on("-i", "--include-ids", "Include tweet ids") {|x| options[:tweet_ids] = x }
+}.parse!
+
+puts options.inspect
 
 # search is different
 if ARGV.first =~ /^s/ # search
@@ -85,7 +104,8 @@ if ARGV.first =~ /^s/ # search
     res['results'].each do |x|
       time = Time.parse(x['created_at']).localtime
       text = x['text'].gsub(/\n/, ' ')
-      textlines = text.wrap(text_width).split(/\n/)
+      text += " #{x['id']}" if options[:tweet_ids]
+      textlines = options[:wrap] ? text.wrap(text_width).split(/\n/) : [text] 
       puts "%s | %s | %s" % [time.to_s.gsub(/\s\S+$/,''), x['from_user'].rjust(18), textlines.shift]
       textlines.each do |line|
         puts("%s | %s" % [''.rjust(40), line])
@@ -158,11 +178,12 @@ loop do
     next if seen.include?(x['id'])
     seen << x['id']
     text = x['text'].gsub(/\n/, ' ')
+    text += " #{x['id']}" if options[:tweet_ids]
     user_width = 18
     from = x['user']['screen_name'][0,user_width]
     total_width = `tput cols`.to_i
     text_width = (total_width - user_width) - 3
-    textlines = text.wrap(text_width).split(/\n/)
+    textlines = options[:wrap] ? text.wrap(text_width).split(/\n/) : [text] 
 
     puts("%s| %s" % [from.rjust(user_width), textlines.shift])
     textlines.each do |line|
