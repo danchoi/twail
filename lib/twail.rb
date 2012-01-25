@@ -81,8 +81,6 @@ OptionParser.new {|opts|
   opts.on("-i", "--include-ids", "Include tweet ids") {|x| options[:tweet_ids] = x }
 }.parse!
 
-puts options.inspect
-
 # search is different
 if ARGV.first =~ /^s/ # search
   ARGV.shift
