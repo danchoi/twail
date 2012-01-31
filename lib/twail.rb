@@ -149,6 +149,7 @@ trap("INT") {
 
 seen = []
 network = true
+total_width = `tput cols`.to_i
 
 loop do 
   raw = begin 
@@ -179,7 +180,6 @@ loop do
     text += " #{x['id']}" if options[:tweet_ids]
     user_width = 18
     from = x['user']['screen_name'][0,user_width]
-    total_width = `tput cols`.to_i
     text_width = (total_width - user_width) - 3
     textlines = options[:wrap] ? text.wrap(text_width).split(/\n/) : [text] 
 
