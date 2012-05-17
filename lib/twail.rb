@@ -61,6 +61,10 @@ To automatically wrap long text, use the -w flag:
 
     twail -w m
 
+To act like `tail -f` and to output new data as it comes in:
+
+    twail -f [args]
+
 For more help, see the README at 
 
     https://github.com/danchoi/twail
@@ -77,6 +81,7 @@ end
 
 options = {}
 OptionParser.new {|opts|
+  opts.on("-f", "Act like tail -f") { options[:tailf] = true }
   opts.on("-w", "--wrap", "Wrap long text") {|x| options[:wrap] = x }
   opts.on("-i", "--include-ids", "Include tweet ids") {|x| options[:tweet_ids] = x }
 }.parse!
@@ -110,6 +115,7 @@ if ARGV.first =~ /^s/ # search
           puts("%s | %s" % [''.rjust(40), line])
         end
       end
+      exit if !options[:tailf]
       query = res['next_page']
       if max_pages
         if query.nil? || query[/page=(\d+)/, 1].to_i > max_pages.to_i
@@ -196,6 +202,8 @@ loop do
     $stdout.flush
     exit
   end
+  exit if !options[:tailf]
+
   sleep 30
 end
 
