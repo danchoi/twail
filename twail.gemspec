@@ -2,7 +2,7 @@
 $:.push File.expand_path("../lib", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "twail"
-  s.version     = '0.1.8'
+  s.version     = '0.1.9'
   s.platform    = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.9.0'
 

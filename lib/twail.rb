@@ -9,8 +9,8 @@ require 'optparse'
 
 # TODO DRY this code up!
 
-TIMELINES = %w( public home friends user)
-SPECIAL = %w(mentions retweeted_by_me retweeted_to_me retweets_of_me)
+TIMELINES = %w( home user mentions)
+SPECIAL = %w(retweets_of_me)
 
 if %w(-h --help).include?(ARGV.first)
   puts <<END
@@ -30,20 +30,16 @@ Usage: twail [timeline]
 
 [timeline] can be any of these:
 
-    public 
     home 
-    friends 
     user 
     mentions 
-    retweeted_by_me 
-    retweeted_to_me 
     retweets_of_me
 
 "home" is the default.
 
 You can use these abbreviations: 
 
-    p h f u m by to of
+    h u m r 
 
 twail will perform a Twitter search if you use 
 
@@ -99,18 +95,38 @@ if ARGV.first =~ /^s/ # search
 
   total_width = `tput cols`.to_i
   text_width = (total_width - 44) 
+  network = true
 
   while query 
     begin
-      url = "http://search.twitter.com/search.json#{query}"
-      json = `curl -s '#{url}'`
-      res = JSON.parse(json)
-      res['results'].each do |x|
+      url = "/1.1/search/tweets.json#{query}"
+      raw = begin 
+              Twurl::CLI.output = StringIO.new
+              Twurl::CLI.run([url]) 
+              if network == false
+                network = true
+                $stderr.print(" The network is back up!\n")
+              end
+              Twurl::CLI.output.read
+              Twurl::CLI.output.rewind
+              Twurl::CLI.output.read
+            rescue SocketError 
+              if network
+                $stderr.print("The network seems to be down.") 
+              else
+                $stderr.print('.')
+              end
+              network = false
+              sleep 20
+              next 
+            end
+      res = JSON.parse(raw)
+      res['statuses'].each do |x|
         time = Time.parse(x['created_at']).localtime
         text = x['text'].gsub(/\n/, ' ')
         text += " #{x['id']}" if options[:tweet_ids]
         textlines = options[:wrap] ? text.wrap(text_width).split(/\n/) : [text] 
-        puts "%s | %s | %s" % [time.to_s.gsub(/\s\S+$/,''), x['from_user'].rjust(18), textlines.shift]
+        puts "%s | %s | %s" % [time.to_s.gsub(/\s\S+$/,''), x['user']['screen_name'].rjust(18), textlines.shift]
         textlines.each do |line|
           puts("%s | %s" % [''.rjust(40), line])
         end
@@ -141,11 +157,11 @@ puts "Logging #{timeline} timeline at #{Time.now}"
 url = case timeline
       when 'retweets_of_me'
         # This doesn't seem to do anything different; figure out later
-        "/1/statuses/#{timeline}.json?include_entities=true"
+        "/1.1/statuses/#{timeline}.json?include_entities=true"
       when *SPECIAL
-        "/1/statuses/#{timeline}.json"
+        "/1.1/statuses/#{timeline}.json"
       else 
-        "/1/statuses/#{timeline}_timeline.json"
+        "/1.1/statuses/#{timeline}_timeline.json"
       end
 
 
